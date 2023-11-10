@@ -87,7 +87,7 @@ export class AuthService {
         id: userId,
       },
     });
-    if (!user) throw new Error('Access Denied');
+    if (!user || user.hashedRt === null) throw new ForbiddenException('Access Denied');
     console.log(user, rt);
     const rtMatch = await bcrypt.compare(rt, user.hashedRt);
     if (!rtMatch) throw new Error('Access Denied');
